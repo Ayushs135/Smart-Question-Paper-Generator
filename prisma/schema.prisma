@@ -1,0 +1,35 @@
+// Prisma schema for Smart Question Paper Generator
+// Phase 2: Question Bank and Prisma Data Layer
+// Local development uses SQLite
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id          String   @id @default(cuid())
+  board       String   @default("CBSE")       // "CBSE"
+  grade       String   @default("CLASS_10")   // "CLASS_10"
+  subject     String                          // "MATHEMATICS" | "SCIENCE"
+  topic       String                          // CBSE topic name
+  difficulty  String                          // "EASY" | "MEDIUM" | "HARD"
+  type        String                          // "MCQ" | "SHORT_ANSWER" | "LONG_ANSWER"
+  marks       Int
+  question    String
+  options     String?                         // Serialized JSON array of options for MCQ questions, null for non-MCQ
+  answer      String
+  explanation String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([board, grade, subject])
+  @@index([subject, topic])
+  @@index([difficulty])
+  @@index([type])
+  @@index([marks])
+}
