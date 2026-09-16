@@ -1,5 +1,7 @@
 # Smart Question Paper Generator
 
+**Live Application**: [https://smart-question-paper-generator-sigma.vercel.app/](https://smart-question-paper-generator-sigma.vercel.app/)
+
 An intelligent academic assessment platform engineered for educators to generate balanced, syllabus-aligned **CBSE Class 10 Mathematics** and **Science** question papers.
 
 ---
