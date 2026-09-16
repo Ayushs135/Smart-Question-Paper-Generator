@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { MATH_QUESTIONS } from "./seed-data/math-questions";
 import { SCIENCE_QUESTIONS } from "./seed-data/science-questions";
 import { EXPANDED_MATH_QUESTIONS } from "./seed-data/math-questions-expanded";
 import { EXPANDED_SCIENCE_QUESTIONS } from "./seed-data/science-questions-expanded";
 import { questionInputSchema, QuestionInput } from "../types/question";
-
-const prisma = new PrismaClient();
 
 async function main() {
   console.log(" Starting CBSE Class 10 Question Bank Seeding...\n");
