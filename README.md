@@ -125,7 +125,7 @@ The system handles this by returning a `PARTIAL` result and showing the resultin
 | **Framework** | Next.js 14 (App Router) |
 | **Language** | TypeScript |
 | **Styling** | Tailwind CSS |
-| **ORM & Database** | Prisma with SQLite (Local Development) |
+| **ORM & Database** | Prisma 5 with libSQL Driver Adapter (SQLite for local dev, Turso for production) |
 | **Algorithm Engine** | Dynamic Programming Beam Search + Local Search Optimization |
 | **PDF Generation** | pdf-lib (Vector PDF) |
 | **AI Integration** | Groq API (`openai/gpt-oss-120b`) via server-side Server Actions |
@@ -183,11 +183,11 @@ Smart-Question-Paper-Generator/
 │   ├── pdf/
 │   │   ├── downloadHelper.ts   # Browser PDF download trigger
 │   │   └── generatePaperPdf.ts # Vector PDF generation engine (pdf-lib)
-│   ├── prisma.ts               # PrismaClient singleton instance
+│   ├── prisma.ts               # PrismaClient singleton with Turso libSQL driver adapter & SQLite fallback
 │   ├── questions.ts            # Data layer queries and multi-filter functions
 │   └── utils.ts                # ClassName merging utilities
 ├── prisma/
-│   ├── schema.prisma           # Prisma schema (Question model & SQLite datasource)
+│   ├── schema.prisma           # Prisma schema (Question model & driverAdapters support)
 │   ├── seed.ts                 # Database seed script with Zod validation
 │   └── seed-data/              # Seed question datasets (433 vetted questions)
 ├── types/                      # TypeScript interfaces and Zod schemas
@@ -224,9 +224,13 @@ cp .env.example .env
 ```
 
 ```env
+# Database connection string (SQLite for local development, libSQL for Turso)
 DATABASE_URL="file:./dev.db"
 
-# Optional: Groq API Key for AI Question Enhancement
+# Turso Auth Token (leave empty for local SQLite, required for Turso cloud)
+TURSO_AUTH_TOKEN=""
+
+# Optional: Groq API Key for AI Question Enhancement & Generation
 GROQ_API_KEY=""
 GROQ_MODEL="openai/gpt-oss-120b"
 ```
@@ -248,3 +252,20 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Testing & Verification
+
+Run the comprehensive 10-phase automated test suite covering constraint satisfaction, 0/1 knapsack feasibility, scale benchmarks (20M–100M), question swapping, AI safety validators, and vector PDF compilation:
+
+```bash
+# Run the complete test suite
+npm test
+
+# Run ESLint validation
+npm run lint
+
+# Compile production Next.js build
+npm run build
+```
